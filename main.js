@@ -1,7 +1,7 @@
 // Kidzvidz desktop app (Electron). The app opens on its own native home screen
 // and streams Kidzvidz content inside the app window.
 
-const { app, BrowserWindow, Menu, shell, nativeImage } = require("electron");
+const { app, BrowserWindow, Menu, shell, nativeImage, session } = require("electron");
 const path = require("path");
 
 const CONTENT_ORIGIN = process.env.KIDZVIDZ_URL || "https://kidzvidz.uk";
@@ -9,8 +9,27 @@ const CONTENT_HOST = (() => {
   try { return new URL(CONTENT_ORIGIN).host; } catch { return "kidzvidz.uk"; }
 })();
 const HOME = path.join(__dirname, "renderer", "home.html");
+const SIGNIN = `${CONTENT_ORIGIN}/auth/signin?callbackUrl=/`;
 
 let mainWindow = null;
+
+// A signed-in user has a persisted NextAuth session cookie. Cookies live in the
+// default session and survive restarts, so this gates the app on each launch.
+async function isSignedIn() {
+  try {
+    const cookies = await session.defaultSession.cookies.get({ url: CONTENT_ORIGIN });
+    return cookies.some((c) => /session-token/i.test(c.name) && c.value);
+  } catch {
+    return false;
+  }
+}
+
+// Signed in → the app's home screen; otherwise → the website's sign-in page.
+async function loadStart() {
+  if (!mainWindow) return;
+  if (await isSignedIn()) mainWindow.loadFile(HOME);
+  else mainWindow.loadURL(SIGNIN);
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -31,7 +50,7 @@ function createWindow() {
   });
 
   mainWindow.once("ready-to-show", () => mainWindow.show());
-  mainWindow.loadFile(HOME);
+  loadStart();
 
   // If content can't load (offline / server down), show the local fallback.
   mainWindow.webContents.on("did-fail-load", (_e, errorCode, _desc, validatedURL, isMainFrame) => {
@@ -66,7 +85,7 @@ function createWindow() {
 
 function buildMenu() {
   const isMac = process.platform === "darwin";
-  const home = () => mainWindow?.loadFile(HOME);
+  const home = () => loadStart();
   const go = (p) => () => mainWindow?.loadURL(CONTENT_ORIGIN + p);
 
   const template = [
