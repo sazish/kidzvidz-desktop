@@ -59,9 +59,14 @@ function createWindow() {
     }
   });
 
-  // Keep the app self-contained: strip in-app references that point back out of it.
   mainWindow.webContents.on("did-finish-load", () => {
     const url = mainWindow.webContents.getURL();
+    // App-only polish: no image drag-ghost, pointing-hand cursor on controls.
+    mainWindow.webContents.insertCSS(
+      "img{-webkit-user-drag:none}" +
+      "button:not(:disabled),a[href],[role=button],summary,label[for]{cursor:pointer}"
+    ).catch(() => {});
+    // Keep the app self-contained: strip in-app references that point back out of it.
     if (url.includes(CONTENT_HOST)) {
       mainWindow.webContents.insertCSS('a[href="/download"],a[href$="/download"]{display:none!important}').catch(() => {});
     }
