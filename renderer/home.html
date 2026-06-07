@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kidzvidz</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: "Poppins", "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(900px 480px at 18% -10%, rgba(56,189,248,0.30), transparent 60%),
+        radial-gradient(900px 520px at 100% 0%, rgba(124,58,237,0.30), transparent 55%),
+        #0b1020;
+      display: flex; flex-direction: column; min-height: 100%;
+    }
+    .titlebar { height: 38px; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 600; letter-spacing: .3px; color: #aab3d4; -webkit-app-region: drag; }
+    main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 28px 40px; text-align: center; }
+    .logo { width: 116px; height: 116px; filter: drop-shadow(0 14px 30px rgba(56,189,248,.35)); }
+    h1 { font-size: 34px; font-weight: 800; margin: 18px 0 6px; letter-spacing: -.5px; }
+    p.sub { margin: 0 0 26px; color: #c7cbe6; font-size: 15px; max-width: 30rem; line-height: 1.6; }
+    .start {
+      display: inline-flex; align-items: center; gap: 10px; cursor: pointer; border: 0;
+      text-decoration: none; color: #fff; font-weight: 700; font-size: 16px;
+      padding: 14px 30px; border-radius: 9999px;
+      background: linear-gradient(90deg, #2563eb, #7c3aed); box-shadow: 0 12px 30px rgba(37,99,235,.45);
+      transition: transform .12s, filter .12s;
+    }
+    .start:hover { transform: translateY(-1px); filter: brightness(1.08); }
+    .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 30px; width: 100%; max-width: 640px; }
+    .tile {
+      text-decoration: none; color: #e9ecff; background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10); border-radius: 18px; padding: 16px 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+      transition: background .12s, transform .12s, border-color .12s;
+    }
+    .tile:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.22); transform: translateY(-2px); }
+    .tile .emoji { font-size: 26px; }
+    @media (max-width: 560px) { .tiles { grid-template-columns: repeat(2, 1fr); } }
+    footer { text-align: center; color: #7e87ad; font-size: 11px; padding-bottom: 14px; }
+  </style>
+</head>
+<body>
+  <div class="titlebar">Kidzvidz</div>
+  <main>
+    <img class="logo" src="./logo.png" alt="Kidzvidz" />
+    <h1>Welcome to Kidzvidz</h1>
+    <p class="sub">Bright, safe videos made for kids — ready to play in your own Kidzvidz app.</p>
+
+    <a class="start" href="https://kidzvidz.uk">▶ Start watching</a>
+
+    <div class="tiles">
+      <a class="tile" href="https://kidzvidz.uk/music"><span class="emoji">🎵</span> Music</a>
+      <a class="tile" href="https://kidzvidz.uk/liked"><span class="emoji">💖</span> Favorites</a>
+      <a class="tile" href="https://kidzvidz.uk/categories"><span class="emoji">🧩</span> Categories</a>
+      <a class="tile" href="https://kidzvidz.uk/parent"><span class="emoji">🛡️</span> Parent Area</a>
+    </div>
+  </main>
+  <footer>Kidzvidz for Desktop</footer>
+</body>
+</html>
